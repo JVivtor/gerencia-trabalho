@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Card Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .card-wrapper {
+            perspective: 1000px;
+            height: 420px;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .card-wrapper:nth-child(1) { animation-delay: 0.1s; }
+        .card-wrapper:nth-child(2) { animation-delay: 0.2s; }
+        .card-wrapper:nth-child(3) { animation-delay: 0.3s; }
+        .card-wrapper:nth-child(4) { animation-delay: 0.4s; }
+        .card-wrapper:nth-child(5) { animation-delay: 0.5s; }
+        .card-wrapper:nth-child(6) { animation-delay: 0.6s; }
+
+        .nft-card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .card-wrapper:nth-child(even) .nft-card {
+            animation: float 3s ease-in-out infinite;
+            animation-delay: 1.5s;
+        }
+
+        .card-wrapper:hover .nft-card {
+            transform: rotateY(180deg);
+            animation-play-state: paused;
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: white;
+        }
+
+        .card-front {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .card-wrapper:hover .card-image {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+
+        .card-description {
+            color: #718096;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .edition {
+            font-size: 0.85rem;
+            color: #a0aec0;
+        }
+
+        .back-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+
+        .detail-item {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: #718096;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #667eea;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .card-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .card-wrapper {
+                height: 400px;
+            }
+
+            .card-image {
+                height: 220px;
+            }
+
+            .card-content {
+                padding: 1.25rem;
+            }
+
+            .card-back {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .card-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .card-wrapper {
+                height: 380px;
+            }
+
+            .card-image {
+                height: 200px;
+            }
+
+            .card-title {
+                font-size: 1.3rem;
+            }
+
+            .card-description {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Touch device support */
+        @media (hover: none) {
+            .card-wrapper:active .nft-card {
+                transform: rotateY(180deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>NFT Collection Gallery</h1>
+        <p class="subtitle">Discover unique digital artworks</p>
+    </header>
+
+    <main class="card-container" id="cardContainer">
+        <!-- Cards will be dynamically inserted here -->
+    </main>
+
+    <script>
+        // NFT data array
+        const nftData = [
+            {
+                title: "Cosmic Dreams",
+                description: "A mesmerizing journey through the cosmos with vibrant nebulas and distant galaxies.",
+                image: "/placeholder.svg?height=240&width=320",
+                price: "2.5 ETH",
+                edition: "1 of 100",
+                creator: "ArtistX",
+                blockchain: "Ethereum",
+                rarity: "Rare",
+                mintDate: "Jan 15, 2024"
+            },
+            {
+                title: "Digital Sunset",
+                description: "Abstract representation of a sunset in the digital realm with warm, flowing colors.",
+                image: "https://i.imgur.com/Z4cudU5.png",
+                price: "1.8 ETH",
+                edition: "5 of 50",
+                creator: "PixelMaster",
+                blockchain: "Ethereum",
+                rarity: "Epic",
+                mintDate: "Feb 3, 2024"
+            },
+            {
+                title: "Neon Cityscape",
+                description: "Futuristic city illuminated by neon lights in a cyberpunk aesthetic.",
+                image: "/placeholder.svg?height=240&width=320",
+                price: "3.2 ETH",
+                edition: "2 of 25",
+                creator: "CyberArt",
+                blockchain: "Polygon",
+                rarity: "Legendary",
+                mintDate: "Mar 10, 2024"
+            },
+            {
+                title: "Ocean Depths",
+                description: "Explore the mysterious beauty of deep ocean waters with bioluminescent creatures.",
+                image: "/placeholder.svg?height=240&width=320",
+                price: "2.0 ETH",
+                edition: "8 of 75",
+                creator: "AquaVision",
+                blockchain: "Ethereum",
+                rarity: "Rare",
+                mintDate: "Jan 28, 2024"
+            },
+            {
+                title: "Abstract Geometry",
+                description: "Mathematical precision meets artistic expression in this geometric masterpiece.",
+                image: "/placeholder.svg?height=240&width=320",
+                price: "1.5 ETH",
+                edition: "12 of 150",
+                creator: "GeoArtist",
+                blockchain: "Solana",
+                rarity: "Common",
+                mintDate: "Feb 14, 2024"
+            },
+            {
+                title: "Forest Spirit",
+                description: "Mystical forest scene with ethereal spirits and magical lighting effects.",
+                image: "/placeholder.svg?height=240&width=320",
+                price: "2.8 ETH",
+                edition: "3 of 30",
+                creator: "NatureMage",
+                blockchain: "Ethereum",
+                rarity: "Epic",
+                mintDate: "Mar 5, 2024"
+            }
+        ];
+
+        // Function to create a card element
+        function createCard(nft) {
+            const cardWrapper = document.createElement('article');
+            cardWrapper.className = 'card-wrapper';
+            cardWrapper.setAttribute('role', 'article');
+            cardWrapper.setAttribute('aria-label', `NFT: ${nft.title}`);
+
+            cardWrapper.innerHTML = `
+                <div class="nft-card">
+                    <div class="card-face card-front">
+                        <img src="${nft.image}" alt="${nft.title}" class="card-image" loading="lazy">
+                        <div class="card-content">
+                            <h2 class="card-title">${nft.title}</h2>
+                            <p class="card-description">${nft.description}</p>
+                            <div class="card-footer">
+                                <span class="price">${nft.price}</span>
+                                <span class="edition">${nft.edition}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="back-title">NFT Details</h3>
+                        <div class="detail-item">
+                            <div class="detail-label">Creator</div>
+                            <div class="detail-value">${nft.creator}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Blockchain</div>
+                            <div class="detail-value">${nft.blockchain}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Mint Date</div>
+                            <div class="detail-value">${nft.mintDate}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Rarity</div>
+                            <div class="detail-value">
+                                ${nft.rarity}
+                                <span class="badge">${nft.rarity}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            return cardWrapper;
+        }
+
+        // Function to render all cards
+        function renderCards() {
+            const container = document.getElementById('cardContainer');
+            nftData.forEach(nft => {
+                const card = createCard(nft);
+                container.appendChild(card);
+            });
+        }
+
+        // Initialize the gallery when DOM is loaded
+        document.addEventListener('DOMContentLoaded', renderCards);
+
+        // Add touch support for mobile devices
+        if ('ontouchstart' in window) {
+            document.addEventListener('DOMContentLoaded', () => {
+                const cards = document.querySelectorAll('.card-wrapper');
+                cards.forEach(card => {
+                    let isFlipped = false;
+                    card.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const nftCard = card.querySelector('.nft-card');
+                        if (isFlipped) {
+                            nftCard.style.transform = 'rotateY(0deg)';
+                        } else {
+                            nftCard.style.transform = 'rotateY(180deg)';
+                        }
+                        isFlipped = !isFlipped;
+                    });
+                });
+            });
+        }
+    </script>
+</body>
+</html>
