@@ -1,7 +1,7 @@
 <h1>🏰 NFT Market - Clash Royale Edition</h1>
 
 <p>
-  Bem-vindo ao <strong>NFT Market - Clash Royale Edition</strong>, uma aplicação web inspirada no universo de <strong>Clash Royale</strong>, onde você pode visualizar cards animados como se fossem NFTs exclusivos.
+  Bem-vindo ao <strong>NFT Market - Clash Royale Edition</strong>, uma aplicação web inspirada no universo de <strong>Clash Royale</strong>,Produzida pelos alunos Pablo Vincius E João Victor INFO 6A, onde você pode visualizar cards animados como se fossem NFTs exclusivos.
 </p>
 <p>
   Este projeto foi desenvolvido utilizando <strong>HTML, CSS e JavaScript puro</strong>, com foco em uma <strong>experiência visual moderna, interativa e responsiva</strong>.
