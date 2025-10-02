@@ -58,7 +58,3 @@
 <blockquote>
   ⚠️ <strong>Nota:</strong> Este é um projeto fictício e não possui integração com blockchain ou transações reais de NFT.
 </blockquote>
-
-<h2>📄 Licença</h2>
-
-<p>Este projeto está sob a licença MIT. Veja o arquivo <a href="./LICENSE">LICENSE</a> para mais detalhes.</p>
