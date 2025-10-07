@@ -12,6 +12,7 @@
 <h2>📸 Preview da Aplicação</h2>
 
 <img src="https://i.imgur.com/TUqye7M.png" alt="Preview da aplicação" width="600">
+<b>Acesse: https://jvivtor.github.io/gerencia-trabalho/</b>
 
 <hr>
 
